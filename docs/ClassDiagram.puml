@@ -1,0 +1,67 @@
+@startuml
+
+class Application {
++start(Stage stage)
++main(String[] args)
+}
+
+class ApplicationController {
+-ResourceBundle resources
+-URL location
+-Button addList
+-Button addTask
+-Button saveLists
+-Button importLists
+-Button removeList
+-Button removeTask
+-ChoiceBox<String> showStatusBox
+-TreeView<String> toDoItems
+-ListView<String> toDoLists
+
++initialize(URL url, ResourceBundle rb)
+}
+
+class ToDoList {
+-List<ToDoItem> itemList
+
++add(ToDoItem item)
++remove(ToDoItem item)
++clear()
++showAll()
++showIncomplete()
++showComplete()
++saveList()
++loadList()
+}
+
+class ToDoItem {
+-String name
+-String description
+-String dueDate
+-boolean complete
+-boolean delete
+
++ToDoItem(String name, String description, String dueDate)
++getName()
++getDescription()
++getDueDate()
++isComplete()
++getDelete()
++setName(String name)
++setDescription(String description)
++setDueDate(String dueDate)
++markAsComplete()
++markAsIncomplete()
++delete()
++removeDelete()
+}
+
+Application <|-- ApplicationController
+ApplicationController <|-- ToDoList
+
+ToDoList *-- ToDoItem
+
+
+
+
+@enduml
