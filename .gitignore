@@ -1,0 +1,30 @@
+# lochmandy-app1-design
+
+# Project exclude paths
+.gradle
+build
+build/classes/java/main/
+.idea
+
+/.gradle
+/build
+/build/classes/java/main/
+/.idea
+
+*/.gradle
+*/build
+*/build/classes/java/main/
+*/.idea
+
+
+build/
+.gradle/
+.idea/
+
+/build/
+/.gradle/
+/.idea/
+
+*/build/
+*/.gradle/
+*/.idea/
