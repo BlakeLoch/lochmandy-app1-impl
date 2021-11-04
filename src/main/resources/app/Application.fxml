@@ -25,7 +25,7 @@
                 <TableColumn fx:id="completeItem" prefWidth="27.0" resizable="false" text="C" />
                 <TableColumn fx:id="itemDescription" prefWidth="389.0" text="Description" />
                   <TableColumn prefWidth="92.0" text="Due Date" />
-                  <TableColumn fx:id="editItem" prefWidth="30.0" resizable="false" text="E" />
+                  <TableColumn fx:id="editItem" prefWidth="30.0" resizable="false" sortable="false" text="E" />
                   <TableColumn fx:id="removeItem" prefWidth="30.0" resizable="false" sortable="false" text="X" />
               </columns>
                <columnResizePolicy>

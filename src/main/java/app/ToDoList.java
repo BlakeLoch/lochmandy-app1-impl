@@ -7,6 +7,10 @@ package app;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.util.Scanner;
 
 public class ToDoList {
 
@@ -14,56 +18,91 @@ public class ToDoList {
 
   public void add(ToDoItem item) {
     // add item to itemList
+    itemList.add(item);
   }
 
   public void remove(ToDoItem item) {
     // remove item from itemList
+    itemList.remove(item);
   }
 
   public void clear() {
     // set itemList to blank
+    itemList.clear();
   }
 
   public List<ToDoItem> showAll() {
     // return itemList
-    return null;
+    return itemList;
   }
 
   public List<ToDoItem> showIncomplete() {
+    // create return list
+    List<ToDoItem> returnList = new ArrayList<>();
     // for each item
-    // if incomplete (complete = false)
-    // add item to list
+    for (ToDoItem item : itemList) {
+      // if incomplete (complete = false)
+      if (!item.isComplete()) {
+        // add item to list
+        returnList.add(item);
+        }
+      }
     // return list
-    return null;
+    return returnList;
   }
 
   public List<ToDoItem> showComplete() {
+    // create return list
+    List<ToDoItem> returnList = new ArrayList<>();
     // for each item
-    // if complete (complete = true)
-    // add item to list
+    for (ToDoItem item : itemList) {
+      // if complete (complete = true)
+      if (item.isComplete()) {
+        // add item to list
+        returnList.add(item);
+      }
+    }
     // return list
-    return null;
+    return returnList;
   }
 
   public void saveList(String outputFile) {
     // create outputFile in try with resources
-    // write "To-Do List\n"
-    // for each item
-    // write "description + ", " + dueDate + ", " + complete
+    try (FileWriter save = new FileWriter(outputFile)) {
+      // write "To-Do List\n"
+      save.write("To-Do List\n");
+      // for each item
+      for (ToDoItem item : itemList) {
+        // write "description + ", " + dueDate + ", " + complete
+        save.write(item.getDescription()+", "+item.getDueDate()+", "+item.isComplete()+"\n");
+        }
+      }
     // catch error
+    catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void loadList(String inputFile) {
-
     // open inputFile in try with resources
+    File input = new File(inputFile);
     // scan the line
+    try (Scanner readFile = new Scanner(input)) {
     // trim file to after "To-Do\n"
-    // tokenize the input line
+      readFile.nextLine();
+      while (readFile.hasNextLine()) {
+        // tokenize the input line
+        String[] itemTokens = readFile.nextLine().split(", ");
     // create an item with token1 = description, token2 = dueDate, token3 (parsed as boolean) = complete
+        ToDoItem item = new ToDoItem(itemTokens[0], itemTokens[1], Boolean.parseBoolean(itemTokens[2]));
     // add item to itemList
+        itemList.add(item);
+        }
 
     // catch error
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-
 
 }
