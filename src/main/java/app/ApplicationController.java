@@ -118,7 +118,7 @@ public class ApplicationController implements Initializable {
 
 
     // When removeItem is clicked
-    removeItem.setCellFactory(ActionButtonTableCell.<ToDoItem>forTableColumn("X", (ToDoItem item) -> {
+    removeItem.setCellFactory(ActionButtonTableCell.forTableColumn("X", (ToDoItem item) -> {
       // remove item from list
       toDoList.remove(item);
       // remove item from table
@@ -127,7 +127,7 @@ public class ApplicationController implements Initializable {
     }));
 
     // Edit Item
-    editItem.setCellFactory(ActionButtonTableCell.<ToDoItem>forTableColumn("E", (ToDoItem item) -> {
+    editItem.setCellFactory(ActionButtonTableCell.forTableColumn("E", (ToDoItem item) -> {
 
       return item;
     }));
@@ -157,8 +157,12 @@ public class ApplicationController implements Initializable {
       ToDoItem item = new ToDoItem(description, dueDate);
       // add new ToDoItem to toDoList
       toDoList.add(item);
+
       // add new ToDoItem to table
-      toDoListTable.getItems().add(item);
+      if (!showStatusBox.getValue().equals("Complete")) {
+        toDoListTable.getItems().add(item);
+      }
+
     }
 
 
@@ -194,10 +198,14 @@ public class ApplicationController implements Initializable {
     fileChooser.getExtensionFilters().add(extFilter);
     // open fileChooser and choose inputFile
     File inputFile = fileChooser.showOpenDialog(loadList.getScene().getWindow());
-    // toDoList.loadList(file)
+
+    // clear list and gui
+    toDoList.clear();
+    toDoListTable.getItems().clear();
+
+    // add items to list and gui
     toDoList.loadList(inputFile);
     toDoListTable.getItems().setAll(toDoList.getItemList());
-
   }
 
   // when editItem is clicked
@@ -225,17 +233,25 @@ public class ApplicationController implements Initializable {
 
   @FXML
   void statusSelected(ActionEvent event) {
+    String choice = showStatusBox.getValue();
     // when showStatusBox = All
-    // show all items on current to do list
-    // populate toDoItems with (current to do list).showAll()
+    if (choice.equals("All")) {
+      // show all items on current to do list
+      // populate toDoItems with (current to do list).getItems()
+      toDoListTable.getItems().setAll(toDoList.getItemList());
+    }
 
     // when showStatusBox = Incomplete
-    // show all incomplete items on current to do list
-    // populate toDoItems with (current to do list).showIncomplete()
+    if (choice.equals("Incomplete")) {
+      // populate toDoItems with (current to do list).showIncomplete()
+      toDoListTable.getItems().setAll(toDoList.showIncomplete());
+    }
 
     // when showStatusBox = Complete
-    // show all complete items on current to do list
-    // populate toDoItems with (current to do list).showComplete()
+    if (choice.equals("Complete")) {
+      // populate toDoItems with (current to do list).showComplete()
+      toDoListTable.getItems().setAll(toDoList.showComplete());
+    }
   }
 
 }
