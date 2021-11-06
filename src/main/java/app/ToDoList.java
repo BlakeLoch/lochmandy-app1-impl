@@ -5,11 +5,11 @@
 
 package app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ToDoList {
@@ -31,7 +31,7 @@ public class ToDoList {
     itemList.clear();
   }
 
-  public List<ToDoItem> showAll() {
+  public List<ToDoItem> getItemList() {
     // return itemList
     return itemList;
   }
@@ -45,8 +45,8 @@ public class ToDoList {
       if (!item.isComplete()) {
         // add item to list
         returnList.add(item);
-        }
       }
+    }
     // return list
     return returnList;
   }
@@ -66,7 +66,9 @@ public class ToDoList {
     return returnList;
   }
 
-  public void saveList(String outputFile) {
+  public void saveList(File outputFile) {
+    String filePath = outputFile.getAbsolutePath();
+    outputFile = new File(filePath + ".txt");
     // create outputFile in try with resources
     try (FileWriter save = new FileWriter(outputFile)) {
       // write "To-Do List\n"
@@ -74,35 +76,47 @@ public class ToDoList {
       // for each item
       for (ToDoItem item : itemList) {
         // write "description + ", " + dueDate + ", " + complete
-        save.write(item.getDescription()+", "+item.getDueDate()+", "+item.isComplete()+"\n");
-        }
+        save.write(
+            item.getDescription() + ", " + item.getDueDate() + ", " + item.isComplete() + "\n");
       }
+    }
     // catch error
     catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void loadList(String inputFile) {
+  public void loadList(File inputFile) {
     // open inputFile in try with resources
-    File input = new File(inputFile);
     // scan the line
-    try (Scanner readFile = new Scanner(input)) {
-    // trim file to after "To-Do\n"
+    try (Scanner readFile = new Scanner(inputFile)) {
+      // trim file to after "To-Do\n"
       readFile.nextLine();
       while (readFile.hasNextLine()) {
         // tokenize the input line
         String[] itemTokens = readFile.nextLine().split(", ");
-    // create an item with token1 = description, token2 = dueDate, token3 (parsed as boolean) = complete
-        ToDoItem item = new ToDoItem(itemTokens[0], itemTokens[1], Boolean.parseBoolean(itemTokens[2]));
-    // add item to itemList
+        // create an item with token1 = description, token2 = dueDate, token3 (parsed as boolean) = complete
+        ToDoItem item = new ToDoItem(itemTokens[0], itemTokens[1],
+            Boolean.parseBoolean(itemTokens[2]));
+        // add item to itemList
         itemList.add(item);
-        }
+      }
 
-    // catch error
+      // catch error
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public boolean equivalentTo(ToDoList list) {
+    boolean returnValue = true;
+    for (ToDoItem item : list.getItemList()) {
+      int index = list.getItemList().indexOf(item);
+      if (!item.equivalentTo(itemList.get(index))) {
+        returnValue = false;
+      }
+    }
+    return returnValue;
   }
 
 }

@@ -5,12 +5,16 @@
 
 package app;
 
+
+import javafx.scene.control.Button;
+
 public class ToDoItem {
 
   private String description;
   private String dueDate;
   private boolean complete;
   private boolean delete;
+
 
   // Class constructor
 
@@ -52,21 +56,6 @@ public class ToDoItem {
     return description;
   }
 
-  public String getDueDate() {
-    // return dueDate
-    return dueDate;
-  }
-
-  public boolean isComplete() {
-    // return complete
-    return complete;
-  }
-
-  public boolean getDelete() {
-    // return delete
-    return delete;
-  }
-
   public void setDescription(String description) {
     // if description is between 1 and 256 characters
     if (description.length() >= 1 && description.length() <= 256) {
@@ -79,6 +68,11 @@ public class ToDoItem {
     }
   }
 
+  public String getDueDate() {
+    // return dueDate
+    return dueDate;
+  }
+
   public void setDueDate(String dueDate) {
     // if dueDate is in format YYYY-MM-DD and a valid date
     if (/*valid date in format*/ true) {
@@ -89,6 +83,16 @@ public class ToDoItem {
     else {
       // throw an error
     }
+  }
+
+  public boolean isComplete() {
+    // return complete
+    return complete;
+  }
+
+  public boolean getDelete() {
+    // return delete
+    return delete;
   }
 
   public void markAsComplete() {
@@ -111,5 +115,8 @@ public class ToDoItem {
     delete = false;
   }
 
+  public boolean equivalentTo(ToDoItem item) {
+    return item.getDescription().equals(this.description) && item.getDueDate().equals(this.dueDate) && item.isComplete() == this.complete;
+  }
 
 }
