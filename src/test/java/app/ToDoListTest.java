@@ -251,5 +251,4 @@ class ToDoListTest {
     assertTrue(actual.equivalentTo(expected));
   }
 
-
 }

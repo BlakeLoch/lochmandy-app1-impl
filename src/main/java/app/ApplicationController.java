@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
@@ -53,7 +54,7 @@ public class ApplicationController implements Initializable {
   private TableColumn<ToDoItem, Button> removeItem;
 
   @FXML
-  private TableColumn<ToDoItem, Button> editItem;
+  private Button editList;
 
   @FXML
   private TableColumn<ToDoItem, CheckBox> completeItem;
@@ -77,6 +78,8 @@ public class ApplicationController implements Initializable {
   @FXML
   public void initialize(URL url, ResourceBundle rb) {
 
+    toDoListTable.setEditable(false);
+
     newItemDueDate.setConverter(new StringConverter<>() {
       private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
       @Override
@@ -95,11 +98,36 @@ public class ApplicationController implements Initializable {
       }
     });
 
-    toDoList.add(new ToDoItem("D", "1111-11-11", true));
 
     // bind ToDoListTable to toDoList
     itemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+
     itemDueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+
+
+
+    itemDescription.setCellFactory(TextFieldTableCell.forTableColumn());
+    itemDescription.setOnEditCommit(event -> {
+      ToDoItem row = event.getRowValue();
+      if (event.getNewValue().length() >= 1 && event.getNewValue().length() <= 256) {
+        row.setDescription(event.getNewValue());
+      } else {
+        row.setDescription(event.getOldValue());
+      }
+      toDoListTable.refresh();
+    });
+
+    itemDueDate.setCellFactory(TextFieldTableCell.forTableColumn());
+    itemDueDate.setOnEditCommit(event -> {
+      ToDoItem row = event.getRowValue();
+      if (event.getNewValue().matches("^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$") || event.getNewValue().equals("")) {
+        row.setDueDate(event.getNewValue());
+      } else {
+        row.setDueDate(event.getOldValue());
+      }
+      toDoListTable.refresh();
+    });
+
 
     completeItem.setCellValueFactory(itemStatus -> {
       ToDoItem item = itemStatus.getValue();
@@ -134,12 +162,6 @@ public class ApplicationController implements Initializable {
       return item;
     }));
 
-    // When editItem is clicked
-    editItem.setCellFactory(ActionButtonTableCell.forTableColumn("E", (ToDoItem item) -> {
-
-      return item;
-    }));
-
   }
 
   // when addItem is clicked
@@ -171,7 +193,25 @@ public class ApplicationController implements Initializable {
         toDoListTable.getItems().add(item);
       }
     }
+  }
 
+  // when editList is clicked
+  @FXML
+  void editListClicked(ActionEvent event) {
+
+    // if button text is done
+    if (editList.getText().equals("Done")) {
+      // make table editable
+      toDoListTable.setEditable(false);
+      // change text to edit
+      editList.setText("Edit");
+    } else {
+      // if button text is edit
+        // make table editable
+        toDoListTable.setEditable(true);
+        // change text to done
+        editList.setText("Done");
+    }
   }
 
   // when clearList is clicked
@@ -180,9 +220,7 @@ public class ApplicationController implements Initializable {
     // clear toDoList
     toDoList.clear();
     toDoListTable.getItems().clear();
-    // remove item
   }
-
 
   // when saveList is clicked
   @FXML
@@ -222,23 +260,6 @@ public class ApplicationController implements Initializable {
     }
 
   }
-
-  // when editItem is clicked
-  // if mode = save
-  // check if description is appropriate length
-  // check if dueDate is appropriate format and valid date
-  // update description and dueDate in item
-  // replace textField and datePicker with description and dueDate strings
-  // set button text to edit
-  // mode = edit
-  // if mode = edit (Default)
-  // save item description and due date to local variables
-  // replace description with textField
-  // replace dueDate with datePicker
-  // put saved description and dueDate in corresponding fields
-  // set button text to save
-  // mode = save
-
 
   @FXML
   void statusSelected(ActionEvent event) {
