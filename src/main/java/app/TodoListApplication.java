@@ -27,10 +27,15 @@ public class TodoListApplication extends Application {
 
     Scene scene = new Scene(root);
 
+    // set title to "To-Do List"
     stage.setTitle("To-Do List");
+    // set scene
     stage.setScene(scene);
+    // set minimum width to 605
     stage.setMinWidth(605);
+    // set minimum height to 430
     stage.setMinHeight(430);
+    // show stage
     stage.show();
   }
 

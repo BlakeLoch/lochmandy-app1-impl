@@ -12,10 +12,7 @@ public class ToDoItem {
   private String dueDate;
   private boolean complete;
 
-
-
-  // Class constructor
-
+  // Class constructors
   public ToDoItem(String description, String dueDate, boolean complete) {
     // set description to description
     this.description = description;
@@ -23,7 +20,6 @@ public class ToDoItem {
     this.dueDate = dueDate;
     // set complete to false
     this.complete = complete;
-    // set delete to false
   }
 
   public ToDoItem(String description, String dueDate) {
@@ -33,7 +29,6 @@ public class ToDoItem {
     this.dueDate = dueDate;
     // set complete to false
     complete = false;
-    // set delete to false
   }
 
   public ToDoItem(String description) {
@@ -43,7 +38,6 @@ public class ToDoItem {
     dueDate = "";
     // set complete to false
     complete = false;
-    // set delete to false
   }
 
   public String getDescription() {
@@ -57,10 +51,6 @@ public class ToDoItem {
       // set description to description
       this.description = description;
     }
-    // else
-    else {
-      // throw an error
-    }
   }
 
   public String getDueDate() {
@@ -70,13 +60,10 @@ public class ToDoItem {
 
   public void setDueDate(String dueDate) {
     // if dueDate is in format YYYY-MM-DD and a valid date
-    if (/*valid date in format*/ true) {
+    if (dueDate.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$") || dueDate.equals(
+        "")) {
       // set dueDate to dueDate
       this.dueDate = dueDate;
-    }
-    // else
-    else {
-      // throw an error
     }
   }
 
@@ -85,25 +72,14 @@ public class ToDoItem {
     return complete;
   }
 
-  public void markAsComplete() {
-    // set complete to true
-    complete = true;
-  }
-
-  public void markAsIncomplete() {
-    // set complete to false
-    complete = false;
+  public void toggleComplete() {
+    // set complete to opposite value
+    complete = !complete;
   }
 
   public boolean equivalentTo(ToDoItem item) {
-    return item.getDescription().equals(this.description) && item.getDueDate().equals(this.dueDate) && item.isComplete() == this.complete;
+    return item.getDescription().equals(this.description) && item.getDueDate().equals(this.dueDate)
+        && item.isComplete() == this.complete;
   }
 
-  public void toggleComplete() {
-    if (complete) {
-      markAsIncomplete();
-    } else {
-      markAsComplete();
-    }
-  }
 }

@@ -68,7 +68,7 @@ public class ToDoList {
 
   public void saveList(File outputFile) {
     String filePath = outputFile.getAbsolutePath();
-    if(!filePath.endsWith(".txt")) {
+    if (!filePath.endsWith(".txt")) {
       outputFile = new File(filePath + ".txt");
     }
 
@@ -112,13 +112,19 @@ public class ToDoList {
   }
 
   public boolean equivalentTo(ToDoList list) {
+    // assume lists are equal
     boolean returnValue = true;
+    // iterate through items in list
     for (ToDoItem item : list.getItemList()) {
+      // get index of item
       int index = list.getItemList().indexOf(item);
+      // if items are not equivalent at index
       if (!item.equivalentTo(itemList.get(index))) {
+        // set returnValue to false
         returnValue = false;
       }
     }
+    // return returnValue
     return returnValue;
   }
 

@@ -14,76 +14,76 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #35abff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ApplicationController">
-   <children>
-      <Label layoutX="14.0" layoutY="14.0" text="To-Do" textFill="WHITE" AnchorPane.leftAnchor="15.0">
-         <font>
-            <Font name="Lucida Grande" size="26.0" />
-         </font>
-      </Label>
+  <children>
+    <Label layoutX="14.0" layoutY="14.0" text="To-Do" textFill="WHITE" AnchorPane.leftAnchor="15.0">
+      <font>
+        <Font name="Lucida Grande" size="26.0" />
+      </font>
+    </Label>
     <AnchorPane focusTraversable="true" layoutY="61.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-         <children>
-            <TableView fx:id="toDoListTable" editable="true" layoutX="16.0" layoutY="47.0" prefHeight="280.0" prefWidth="570.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="46.0">
-              <columns>
-                <TableColumn fx:id="completeItem" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" text="C" />
-                <TableColumn fx:id="itemDescription" maxWidth="1.7976931348623157E308" minWidth="420.0" prefWidth="420.0" text="Description" />
-                  <TableColumn fx:id="itemDueDate" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" text="Due Date" />
-                  <TableColumn fx:id="removeItem" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" sortable="false" text="X" />
-              </columns>
-              <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-              </columnResizePolicy>
-            </TableView>
-            <HBox alignment="CENTER" layoutX="15.0" layoutY="8.0" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="570.0" spacing="9.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
-               <children>
-                  <Label text="Description:" HBox.hgrow="NEVER">
-                     <font>
-                        <Font name="Lucida Grande" size="13.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="newItemDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="26.0" minWidth="233.0" prefHeight="26.0" prefWidth="233.0" promptText="1-256 Characters" HBox.hgrow="ALWAYS" />
-                  <Label text="Due Date:" HBox.hgrow="NEVER" />
-                  <DatePicker fx:id="newItemDueDate" editable="false" prefHeight="26.0" prefWidth="127.0" promptText="YYYY-MM-DD" HBox.hgrow="NEVER" />
-                  <Button fx:id="addItem" alignment="CENTER" mnemonicParsing="false" onAction="#addItemClicked" text="Add" textAlignment="CENTER" HBox.hgrow="NEVER">
-                     <font>
-                        <Font name="Lucida Grande" size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <HBox alignment="CENTER_RIGHT" layoutX="199.0" layoutY="11.0" prefHeight="36.0" prefWidth="389.0" spacing="9.0" AnchorPane.rightAnchor="15.0">
-         <children>
-            <ChoiceBox fx:id="showStatusBox" onAction="#statusSelected" value="All">
-              <items>
-                <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="All" />
-                  <String fx:value="Incomplete" />
-                  <String fx:value="Complete" />
-                </FXCollections>
-              </items>
-           </ChoiceBox>
-            <Button fx:id="editList" mnemonicParsing="false" onAction="#editListClicked" text="Edit">
-               <font>
-                  <Font name="Lucida Grande" size="13.0" />
-               </font>
+      <children>
+        <TableView fx:id="toDoListTable" editable="true" layoutX="16.0" layoutY="47.0" prefHeight="280.0" prefWidth="570.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="46.0">
+          <columns>
+            <TableColumn fx:id="completeItem" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" text="C" />
+            <TableColumn fx:id="itemDescription" maxWidth="1.7976931348623157E308" minWidth="420.0" prefWidth="420.0" text="Description" />
+            <TableColumn fx:id="itemDueDate" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" text="Due Date" />
+            <TableColumn fx:id="removeItem" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" sortable="false" text="X" />
+          </columns>
+          <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+          </columnResizePolicy>
+        </TableView>
+        <HBox alignment="CENTER" layoutX="15.0" layoutY="8.0" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="570.0" spacing="9.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+          <children>
+            <Label text="Description:" HBox.hgrow="NEVER">
+              <font>
+                <Font name="Lucida Grande" size="13.0" />
+              </font>
+            </Label>
+            <TextField fx:id="newItemDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="26.0" minWidth="233.0" prefHeight="26.0" prefWidth="233.0" promptText="1-256 Characters" HBox.hgrow="ALWAYS" />
+            <Label text="Due Date:" HBox.hgrow="NEVER" />
+            <DatePicker fx:id="newItemDueDate" editable="false" prefHeight="26.0" prefWidth="127.0" promptText="YYYY-MM-DD" HBox.hgrow="NEVER" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#addItemClicked" text="Add" textAlignment="CENTER" HBox.hgrow="NEVER">
+              <font>
+                <Font name="Lucida Grande" size="13.0" />
+              </font>
             </Button>
-            <Button fx:id="clearList" mnemonicParsing="false" onAction="#clearListClicked" text="Clear">
-               <font>
-                  <Font name="Lucida Grande" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="saveList" alignment="CENTER" mnemonicParsing="false" onAction="#saveListClicked" text="Save" textAlignment="CENTER">
-               <font>
-                  <Font name="Lucida Grande" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="loadList" alignment="CENTER" mnemonicParsing="false" onAction="#loadListClicked" text="Load" textAlignment="CENTER">
-               <font>
-                  <Font name="Lucida Grande" size="13.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-   </children>
+          </children>
+        </HBox>
+      </children>
+    </AnchorPane>
+    <HBox alignment="CENTER_RIGHT" layoutX="199.0" layoutY="11.0" prefHeight="36.0" prefWidth="389.0" spacing="9.0" AnchorPane.rightAnchor="15.0">
+      <children>
+        <ChoiceBox fx:id="showStatusBox" onAction="#statusSelected" value="All">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="All" />
+              <String fx:value="Incomplete" />
+              <String fx:value="Complete" />
+            </FXCollections>
+          </items>
+        </ChoiceBox>
+        <Button fx:id="editList" mnemonicParsing="false" onAction="#editListClicked" text="Edit">
+          <font>
+            <Font name="Lucida Grande" size="13.0" />
+          </font>
+        </Button>
+        <Button mnemonicParsing="false" onAction="#clearListClicked" text="Clear">
+          <font>
+            <Font name="Lucida Grande" size="13.0" />
+          </font>
+        </Button>
+        <Button fx:id="saveList" alignment="CENTER" mnemonicParsing="false" onAction="#saveListClicked" text="Save" textAlignment="CENTER">
+          <font>
+            <Font name="Lucida Grande" size="13.0" />
+          </font>
+        </Button>
+        <Button fx:id="loadList" alignment="CENTER" mnemonicParsing="false" onAction="#loadListClicked" text="Load" textAlignment="CENTER">
+          <font>
+            <Font name="Lucida Grande" size="13.0" />
+          </font>
+        </Button>
+      </children>
+    </HBox>
+  </children>
 </AnchorPane>

@@ -6,58 +6,79 @@ class Application {
 }
 
 class ApplicationController {
--ResourceBundle resources
--URL location
--Button addList
--Button addTask
--Button saveLists
--Button importLists
--Button removeList
--Button removeTask
+-String ALL
+-String INCOMPLETE
+-String COMPLETE
+-ToDoList toDoList
+-TableView<ToDoItem> toDoListTable
+-Button editList
+-Button saveList
+-Button loadList
+-TableColumn<ToDoItem, String> itemDescription
+-TableColumn<ToDoItem, String> itemDueDate
+-TableColumn<ToDoItem, Button> removeItem
+-TableColumn<ToDoItem, CheckBox> completeItem
+-TextField newItemDescription
+-DatePicker newItemDueDate
 -ChoiceBox<String> showStatusBox
--TreeView<String> toDoItems
--ListView<String> toDoLists
 
-+initialize(URL url, ResourceBundle rb)
++initialize(URL, ResourceBundle)
+-addItemClicked()
+-editListClicked()
+-clearListClicked()
+-saveListClicked()
+-loadListClicked()
+-statusSelected()
+-dateStringNullOrEmpty(String)
+-description1to256Characters(CellEditEvent<ToDoItem, String>)
+-dateInFormatOrBlank(CellEditEvent<ToDoItem, String>)
+-showingIncompleteAndMarkedAsComplete(ChoiceBox<String>, boolean)
+-showingCompleteAndMarkedAsIncomplete(ChoiceBox<String>, boolean)
 }
 
 class ToDoList {
 -List<ToDoItem> itemList
 
-+add(ToDoItem item)
-+remove(ToDoItem item)
++add(ToDoItem)
++remove(ToDoItem)
 +clear()
-+showAll()
++getItemList()
 +showIncomplete()
 +showComplete()
-+saveList()
-+loadList()
++saveList(File)
++loadList(File)
++equivalentTo(ToDoList)
 }
 
 class ToDoItem {
--String name
 -String description
 -String dueDate
 -boolean complete
--boolean delete
 
-+ToDoItem(String name, String description, String dueDate)
-+getName()
++ToDoItem(String, String, boolean)
++ToDoItem(String, String)
++ToDoItem(String)
 +getDescription()
++setDescription(String)
 +getDueDate()
++setDueDate(String)
 +isComplete()
-+getDelete()
-+setName(String name)
-+setDescription(String description)
-+setDueDate(String dueDate)
-+markAsComplete()
-+markAsIncomplete()
-+delete()
-+removeDelete()
++toggleComplete()
++equivalentTo(ToDoItem)
+}
+
+class ActionButtonTableCell {
+-Button actionButton
+
++ActionButtonTableCell(String, Function<S, S>)
++forTableColumn(String, Function<S, S>)
++getCurrentItem()
++updateItem(Button, boolean)
 }
 
 Application <|-- ApplicationController
 ApplicationController <|-- ToDoList
+ApplicationController <|-- ActionButtonTableCell
 
 ToDoList *-- ToDoItem
 

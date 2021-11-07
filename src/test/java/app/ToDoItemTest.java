@@ -85,29 +85,41 @@ class ToDoItemTest {
   }
 
   @Test
-  void markAsComplete() {
+  void toggleCompleteFT() {
     // create ToDoItem with a constructor
-    ToDoItem item = new ToDoItem("Description");
-    // ToDoItem.markAsComplete
-    item.markAsComplete();
-    // actual = ToDoItem.isComplete
+    ToDoItem item = new ToDoItem("Description","",false);
+    // ToDoItem.toggleComplete
+    item.toggleComplete();
+    // actual = get complete
     boolean actual = item.isComplete();
-    // check if actual is true
+    // assert if actual is true
     assertTrue(actual);
   }
 
   @Test
-  void markAsIncomplete() {
+  void toggleCompleteTF() {
     // create ToDoItem with a constructor
-    ToDoItem item = new ToDoItem("Description");
-    // ToDoItem.markAsComplete
-    item.markAsComplete();
-    // ToDoItem.markAsIncomplete
-    item.markAsIncomplete();
-    // actual = ToDoItem.isComplete
+    ToDoItem item = new ToDoItem("Description","",true);
+    // ToDoItem.toggleComplete
+    item.toggleComplete();
+    // actual = get complete
     boolean actual = item.isComplete();
-    // check if actual is false
+    // assert if actual is false
     assertFalse(actual);
   }
 
+
+  @Test
+  void equivalentToTrue() {
+    ToDoItem item1 = new ToDoItem("Description", "2000-01-01", false);
+    ToDoItem item2 = new ToDoItem("Description", "2000-01-01", false);
+    assertTrue(item1.equivalentTo(item2));
+  }
+
+  @Test
+  void equivalentToFalse() {
+    ToDoItem item1 = new ToDoItem("Description1", "2022-01-01", false);
+    ToDoItem item2 = new ToDoItem("Description2", "2000-01-01", true);
+    assertFalse(item1.equivalentTo(item2));
+  }
 }

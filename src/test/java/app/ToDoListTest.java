@@ -251,4 +251,48 @@ class ToDoListTest {
     assertTrue(actual.equivalentTo(expected));
   }
 
+  @Test
+  void equivalentToT() {
+    // create toDoItems
+    ToDoItem item1 = new ToDoItem("Description", "2000-01-01", false);
+    ToDoItem item2 = new ToDoItem("D", "2000-01-01", true);
+    ToDoItem item3 = new ToDoItem("Description", "", false);
+    ToDoItem item4 = new ToDoItem("Description", "", true);
+    // create ToDoLists
+    ToDoList list1 = new ToDoList();
+    ToDoList list2 = new ToDoList();
+    // add toDoItems to list1
+    list1.add(item1);
+    list1.add(item2);
+    list1.add(item3);
+    list1.add(item4);
+    // add toDoItems to list2
+    list2.add(item1);
+    list2.add(item2);
+    list2.add(item3);
+    list2.add(item4);
+    //assert true if lists are equivalent
+    assertTrue(list1.equivalentTo(list2));
+  }
+
+  @Test
+  void equivalentToF() {
+    // create toDoItems
+    ToDoItem item1 = new ToDoItem("Description", "2000-01-01", false);
+    ToDoItem item2 = new ToDoItem("D", "2000-01-01", true);
+    ToDoItem item3 = new ToDoItem("Description", "", false);
+    ToDoItem item4 = new ToDoItem("Description", "", true);
+    // create ToDoLists
+    ToDoList list1 = new ToDoList();
+    ToDoList list2 = new ToDoList();
+    // add toDoItems to list1
+    list1.add(item1);
+    list1.add(item3);
+    // add toDoItems to list2
+    list2.add(item2);
+    list2.add(item4);
+    //assert false if lists are not equivalent
+    assertFalse(list1.equivalentTo(list2));
+  }
+
 }
