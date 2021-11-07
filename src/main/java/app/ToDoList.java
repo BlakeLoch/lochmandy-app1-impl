@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class ToDoList {
 
-  private List<ToDoItem> itemList = new ArrayList<>();
+  private final List<ToDoItem> itemList = new ArrayList<>();
 
   public void add(ToDoItem item) {
     // add item to itemList
@@ -68,7 +68,10 @@ public class ToDoList {
 
   public void saveList(File outputFile) {
     String filePath = outputFile.getAbsolutePath();
-    outputFile = new File(filePath + ".txt");
+    if(!filePath.endsWith(".txt")) {
+      outputFile = new File(filePath + ".txt");
+    }
+
     // create outputFile in try with resources
     try (FileWriter save = new FileWriter(outputFile)) {
       // write "To-Do List\n"

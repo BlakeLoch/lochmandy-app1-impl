@@ -6,14 +6,12 @@
 package app;
 
 
-import javafx.scene.control.Button;
-
 public class ToDoItem {
 
   private String description;
   private String dueDate;
   private boolean complete;
-  private boolean delete;
+
 
 
   // Class constructor
@@ -26,7 +24,6 @@ public class ToDoItem {
     // set complete to false
     this.complete = complete;
     // set delete to false
-    delete = false;
   }
 
   public ToDoItem(String description, String dueDate) {
@@ -37,7 +34,6 @@ public class ToDoItem {
     // set complete to false
     complete = false;
     // set delete to false
-    delete = false;
   }
 
   public ToDoItem(String description) {
@@ -48,7 +44,6 @@ public class ToDoItem {
     // set complete to false
     complete = false;
     // set delete to false
-    delete = false;
   }
 
   public String getDescription() {
@@ -90,33 +85,25 @@ public class ToDoItem {
     return complete;
   }
 
-  public boolean getDelete() {
-    // return delete
-    return delete;
-  }
-
   public void markAsComplete() {
     // set complete to true
     complete = true;
   }
 
-  public void markAsInComplete() {
+  public void markAsIncomplete() {
     // set complete to false
     complete = false;
-  }
-
-  public void delete() {
-    // set delete to true
-    delete = true;
-  }
-
-  public void removeDelete() {
-    // set delete to false
-    delete = false;
   }
 
   public boolean equivalentTo(ToDoItem item) {
     return item.getDescription().equals(this.description) && item.getDueDate().equals(this.dueDate) && item.isComplete() == this.complete;
   }
 
+  public void toggleComplete() {
+    if (complete) {
+      markAsIncomplete();
+    } else {
+      markAsComplete();
+    }
+  }
 }

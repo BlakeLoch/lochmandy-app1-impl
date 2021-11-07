@@ -55,16 +55,6 @@ class ToDoItemTest {
     assertTrue(actual);
   }
 
-  @Test
-  void getDelete() {
-    // create ToDoItem with a constructor
-    ToDoItem item = new ToDoItem("Description");
-    // actual = ToDoItem.getDelete
-    boolean actual = item.getDelete();
-    // check if actual is false
-    assertFalse(actual);
-  }
-
 
   @Test
   void setDescription() {
@@ -107,41 +97,15 @@ class ToDoItemTest {
   }
 
   @Test
-  void markAsInComplete() {
+  void markAsIncomplete() {
     // create ToDoItem with a constructor
     ToDoItem item = new ToDoItem("Description");
     // ToDoItem.markAsComplete
     item.markAsComplete();
     // ToDoItem.markAsIncomplete
-    item.markAsInComplete();
+    item.markAsIncomplete();
     // actual = ToDoItem.isComplete
     boolean actual = item.isComplete();
-    // check if actual is false
-    assertFalse(actual);
-  }
-
-  @Test
-  void delete() {
-    // create ToDoItem with a constructor
-    ToDoItem item = new ToDoItem("Description");
-    // ToDoItem.delete
-    item.delete();
-    // actual = ToDoItem.getDelete
-    boolean actual = item.getDelete();
-    // check if actual is true
-    assertTrue(actual);
-  }
-
-  @Test
-  void removeDelete() {
-    // create ToDoItem with a constructor
-    ToDoItem item = new ToDoItem("Description");
-    // ToDoItem.delete
-    item.delete();
-    // ToDoItem.removeDelete
-    item.removeDelete();
-    // actual = ToDoItem.getDelete
-    boolean actual = item.getDelete();
     // check if actual is false
     assertFalse(actual);
   }

@@ -11,27 +11,22 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
 public class ApplicationController implements Initializable {
-
-  @FXML
-  private ResourceBundle resources;
-
-  @FXML
-  private URL location;
 
   @FXML
   private TableView<ToDoItem> toDoListTable;
@@ -61,7 +56,7 @@ public class ApplicationController implements Initializable {
   private TableColumn<ToDoItem, Button> editItem;
 
   @FXML
-  private TableColumn<ToDoItem, Boolean> completeItem;
+  private TableColumn<ToDoItem, CheckBox> completeItem;
 
   @FXML
   private TextField newItemDescription;
@@ -70,51 +65,64 @@ public class ApplicationController implements Initializable {
   private DatePicker newItemDueDate;
 
   @FXML
-  private TextField saveFileName;
-
-  @FXML
   private ChoiceBox<String> showStatusBox;
 
-
-
   //make a new ToDoList object called toDoList
-  private ToDoList toDoList = new ToDoList();
+  private final ToDoList toDoList = new ToDoList();
+
+  private  static final String ALL = "All";
+  private static final String INCOMPLETE = "Incomplete";
+  private static final String COMPLETE = "Complete";
 
   @FXML
   public void initialize(URL url, ResourceBundle rb) {
 
-    newItemDueDate.setConverter(new StringConverter<LocalDate>()
-    {
-      private DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+    newItemDueDate.setConverter(new StringConverter<>() {
+      private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
       @Override
-      public String toString(LocalDate localDate)
-      {
-        if(localDate==null)
+      public String toString(LocalDate localDate) {
+        if (localDate == null) {
           return "";
+        }
         return dateTimeFormatter.format(localDate);
       }
-
       @Override
-      public LocalDate fromString(String dateString)
-      {
-        if(dateString==null || dateString.trim().isEmpty())
-        {
+      public LocalDate fromString(String dateString) {
+        if (dateString == null || dateString.trim().isEmpty()) {
           return null;
         }
-        return LocalDate.parse(dateString,dateTimeFormatter);
+        return LocalDate.parse(dateString, dateTimeFormatter);
       }
     });
 
-    toDoList.add(new ToDoItem("D", "1111-11-11", false));
+    toDoList.add(new ToDoItem("D", "1111-11-11", true));
 
     // bind ToDoListTable to toDoList
     itemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
     itemDueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-    completeItem.setCellValueFactory(new PropertyValueFactory<>("complete"));
-    completeItem.setCellFactory(column -> new CheckBoxTableCell<>());
-    toDoListTable.getItems().setAll(toDoList.getItemList());
 
+    completeItem.setCellValueFactory(itemStatus -> {
+      ToDoItem item = itemStatus.getValue();
+      CheckBox checkBox = new CheckBox();
+      checkBox.selectedProperty().setValue(item.isComplete());
+      checkBox.selectedProperty().addListener((ov, oldVal, newVal) -> {
+        item.toggleComplete();
+        boolean newStatus = item.isComplete();
+
+        if (showStatusBox.getValue().equals(INCOMPLETE) && newStatus) {
+            toDoListTable.getItems().remove(item);
+        }
+
+        if (showStatusBox.getValue().equals(COMPLETE) && !newStatus) {
+            toDoListTable.getItems().remove(item);
+        }
+
+
+      });
+      return new SimpleObjectProperty<>(checkBox);
+    });
+
+    toDoListTable.getItems().setAll(toDoList.getItemList());
 
 
     // When removeItem is clicked
@@ -126,7 +134,7 @@ public class ApplicationController implements Initializable {
       return item;
     }));
 
-    // Edit Item
+    // When editItem is clicked
     editItem.setCellFactory(ActionButtonTableCell.forTableColumn("E", (ToDoItem item) -> {
 
       return item;
@@ -159,12 +167,10 @@ public class ApplicationController implements Initializable {
       toDoList.add(item);
 
       // add new ToDoItem to table
-      if (!showStatusBox.getValue().equals("Complete")) {
+      if (!showStatusBox.getValue().equals(COMPLETE)) {
         toDoListTable.getItems().add(item);
       }
-
     }
-
 
   }
 
@@ -203,9 +209,18 @@ public class ApplicationController implements Initializable {
     toDoList.clear();
     toDoListTable.getItems().clear();
 
-    // add items to list and gui
+    // add items to list
     toDoList.loadList(inputFile);
-    toDoListTable.getItems().setAll(toDoList.getItemList());
+
+    // add items to gui
+    if (showStatusBox.getValue().equals(INCOMPLETE)) {
+      toDoListTable.getItems().setAll(toDoList.showIncomplete());
+    } else if (showStatusBox.getValue().equals(COMPLETE)) {
+      toDoListTable.getItems().setAll(toDoList.showComplete());
+    } else {
+      toDoListTable.getItems().setAll(toDoList.getItemList());
+    }
+
   }
 
   // when editItem is clicked
@@ -225,30 +240,28 @@ public class ApplicationController implements Initializable {
   // mode = save
 
 
-  // When completeItem is clicked
-  // if item is incomplete
-  // mark item as complete
-  // else
-  // mark item as incomplete
-
   @FXML
   void statusSelected(ActionEvent event) {
     String choice = showStatusBox.getValue();
+
+    // clear list
+    toDoListTable.getItems().clear();
+
     // when showStatusBox = All
-    if (choice.equals("All")) {
+    if (choice.equals(ALL)) {
       // show all items on current to do list
       // populate toDoItems with (current to do list).getItems()
       toDoListTable.getItems().setAll(toDoList.getItemList());
     }
 
     // when showStatusBox = Incomplete
-    if (choice.equals("Incomplete")) {
+    if (choice.equals(INCOMPLETE)) {
       // populate toDoItems with (current to do list).showIncomplete()
       toDoListTable.getItems().setAll(toDoList.showIncomplete());
     }
 
     // when showStatusBox = Complete
-    if (choice.equals("Complete")) {
+    if (choice.equals(COMPLETE)) {
       // populate toDoItems with (current to do list).showComplete()
       toDoListTable.getItems().setAll(toDoList.showComplete());
     }
